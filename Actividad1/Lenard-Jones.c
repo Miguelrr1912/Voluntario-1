@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+#include <omp.h>
+
 
 #define L 10
 #define N 16
@@ -59,6 +61,9 @@ void Energia  (body bodies[], FILE *file)
     double E=0;
     double Ecinetica=0;
     double Epotencial=0;
+    
+    //Para evitar conflictos con OpenMP
+    #pragma omp parallel for reduction(+:Ecinetica)
     for(i=0; i<N; i++)
     {   
         Ecinetica+=0.5*(bodies[i].vx*bodies[i].vx+bodies[i].vy*bodies[i].vy);
@@ -91,7 +96,8 @@ void aceleracion (body bodies[])
   double dx,dy,r;
   
   //calculo la aceleracion a partir de las fuerzas
-
+  //Paralelizo
+  #pragma omp parallel for private(j,dx,dy,r) shared(bodies)
   for (i=0; i<N; i++)
     { 
         bodies[i].ax=0;
