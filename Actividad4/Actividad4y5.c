@@ -44,6 +44,31 @@ void InializarCuerposHexagono(body bodies[])
      }
 } 
 
+void InicializarCuerposHexagono2(body bodies[])
+{
+    int i, j, index = 0;
+    int Nx = 4; // número de columnas
+    int Ny = N / Nx; // número de filas, ajusta para que Nx*Ny = N
+
+    double sx = L / 4.0;                  // separación horizontal
+    double sy = sx * sqrt(3.0) / 2.0;     // separación vertical
+
+    for (j = 0; j < Ny; j++)
+    {
+        for (i = 0; i < Nx; i++)
+        {
+            bodies[index].x = L/8.0 + sx * i + (j % 2) * sx / 2.0; // desplazamiento horizontal de fila impar
+            bodies[index].y = L/8.0 + sy * j;
+            bodies[index].vx = 0.0;
+            bodies[index].vy = 0.0;
+            bodies[index].ax = 0.0;
+            bodies[index].ay = 0.0;
+            index++;
+        }
+    }
+}
+
+
 
 
 void Energia  (body bodies[], FILE *file)
@@ -211,7 +236,7 @@ int main (void)
     }
 
     body bodies[N];
-    InializarCuerposCuadrado(bodies);
+    InicializarCuerposHexagono2(bodies);
     aceleracion(bodies);
 
     for (i=0; i<100; i=i+h)
