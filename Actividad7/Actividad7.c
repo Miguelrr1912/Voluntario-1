@@ -4,7 +4,7 @@
 #include <time.h>
 
 #define L 10
-#define N 20
+#define N 16
 #define h 0.002
 #define PI 3.14159265358979323846
 
@@ -178,11 +178,11 @@ void Verlet (body bodies[], FILE *file)
     //Para librarme de hacer mas funciones me los voy a guardar ya todas las variables 
     //en un solo archivo
 
-    for(i=0; i<N; i++)
-    {
-        fprintf(file, "%lf, %lf\n", bodies[i].x, bodies[i].y);
-    }
-    fprintf(file, "\n"); //Salto de línea para separar los pasos
+    //for(i=0; i<N; i++)
+    //{
+    //    fprintf(file, "%lf, %lf\n", bodies[i].x, bodies[i].y);
+    //}
+    //fprintf(file, "\n"); //Salto de línea para separar los pasos
 }
 
 double Promedio(body bodies[], FILE *file)
@@ -228,7 +228,7 @@ double fluctuación_particulas(body bodies[])
 
 int main (void)
 {
-    double i, contador=0, fluc=0;
+    double i, contador=0, fluc=0,temp=0;
     double promedio=0,promediotot=0;
     int j,aux;
 
@@ -257,11 +257,21 @@ int main (void)
     }
 
     body bodies[N];
-    InializarCuerposAleatorio(bodies);
+    InializarCuerposCuadrado(bodies);
     aceleracion(bodies);
 
     for (i=0; i<1000; i=i+h)
     {   
+        //Hago que cada 60 secs me de la flutuación media y la temperatura media 
+        if ( aux%(30000) == 0 && aux != 0)
+        {fprintf(file4, "%lf\n", fluc/30000);
+        fprintf(file3, "%lf\n", temp/30000);
+
+        //Ahora reinicio las fluctuaciones y la temperatura
+        fluc=0;
+        temp=0;
+        }
+
         //Aumento la velocidad de los cuerpos en un factor de 1.1 añado un aux pq si no hace cosas raras
         if ( aux%(30000) == 0 && aux != 0)
         { for (j=0; j<N; j++)
@@ -276,13 +286,11 @@ int main (void)
         Energia(bodies, file2);
      
 
-        fluc = fluctuación_particulas(bodies)/(i+h);
-        fprintf(file4, "%lf",fluc);
-        //Imprimo una seperación en el codigo
-        fprintf(file4, "\n");
+        fluc += fluctuación_particulas(bodies);
+        
 
-        //Imprimo la temperatura para cada iteración
-        fprintf(file3, "%lf\n", velocidad(bodies));
+        //Imprimo la temperatura para cada iteración y la sumo
+        temp+=Promedio(bodies, file3);
         
         
         aux++;
@@ -294,6 +302,8 @@ int main (void)
 
     promedio=promedio/(contador);
     printf("El promedio de la energia cinetica es: %lf\n", promedio);
+
+    
     
     fclose(file);
     fclose(file2);
