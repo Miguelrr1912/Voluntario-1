@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-# Leer datos del archivo (igual que antes)
+# Leer datos del archivo 
 def leer_datos(nombre_archivo):
     with open(nombre_archivo, 'r') as archivo:
         bloques = archivo.read().strip().split('\n\n')

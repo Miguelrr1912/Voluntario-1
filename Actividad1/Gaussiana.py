@@ -28,7 +28,7 @@ def main():
     # Superponer distribución teórica
     plt.plot(v_vals, f_vals, color='red', label=f'Distribución teórica (T = {T:.2f})')
 
-    # Estética
+  
     plt.xlabel('Velocidad')
     plt.ylabel('Densidad de probabilidad')
     plt.title('Velocidades vs distribución teórica')

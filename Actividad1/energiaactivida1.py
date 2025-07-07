@@ -31,7 +31,7 @@ def graficar_energias(Ep, Ec, Et):
     plt.savefig(ruta_salida)
     plt.show()
 
-# Cambia este nombre si tu archivo tiene otro nombre
+
 archivo = 'C:/Users/User/Documents/Fisica_compu/Compu/Voluntario 1 (potencial de Lennard-Jones)/Actividad1/ENERGIA.txt'
 archivo2 = 'C:/Users/User/Documents/Fisica_compu/Compu/Voluntario 1 (potencial de Lennard-Jones)/Actividad1/ENERGIA.txt'
 Ep, Ec, Et = leer_datos(archivo)
